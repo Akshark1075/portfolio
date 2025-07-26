@@ -7,8 +7,8 @@ const projectData = [
       "This portfolio project draws inspiration from the design of the Apple Vision Pro website, featuring scroll-based parallax animations for an immersive browsing experience. It showcases custom 3D models created in Blender, with animations inspired by Walt Disney’s iconic Monsters, Inc.—each door in the scene represents a unique project from my portfolio. The WebXR scene is powered by Three.js and it is VR-compatible. Use the arrows to navigate and explore my work.",
     projectThumbnail:
       "https://lh3.googleusercontent.com/pw/AP1GczMD__bSY4ZbS9y3NuDJqPfZH0v2WKCBCEqtUyIdBDrt7sNW62WxkXiVMIVShk3v7rO6R-SC84bA2DC4NTt9HokIYeJEgaeK-gVed8foEv12_KiavHM=w2400",
-    url: "",
-    githubUrl: "",
+    url: "https://portfolio-ak-vd4g.onrender.com/",
+    githubUrl: "https://github.com/Akshark1075/portfolio",
     responsive: "No",
     compatibleDevices: "Desktops, AR Headset",
   },

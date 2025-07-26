@@ -29,7 +29,8 @@ const fullscreenIcon = document.getElementById("fullscreenIcon");
 const eyeIcon = document.getElementById("eyeIcon");
 const imageOverlay = document.getElementById("img-overlay");
 const container = document.getElementById("project_container");
-const viewButton = document.querySelector("#viewButton");
+const viewButton = document.querySelector("#viewButton a");
+const downloadCVBtn = document.querySelector(".download");
 //Loading manager for gltf and texture loader
 const loadingManager = new THREE.LoadingManager();
 
@@ -40,6 +41,19 @@ let isThirdDoorLastActionReverse = false;
 if (screen.width < 650) {
   alert("Please try the application on a bigger screen");
 }
+
+const contactLinks = document.querySelectorAll(
+  ".foreground-title-layer .title-section .contact a"
+);
+contactLinks.forEach((link) => {
+  link.addEventListener("mouseover", () => {
+    link.classList.add("hovered");
+  });
+
+  link.addEventListener("mouseout", () => {
+    link.classList.remove("hovered");
+  });
+});
 
 window.addEventListener("scroll", () => {
   // if (screen.width > 800) {
@@ -73,7 +87,7 @@ window.addEventListener("scroll", () => {
   if (screen.width > 800) {
     titleSection.style.top = `${Math.min(
       60,
-      18 + (scrollTop / maxScroll) * 10
+      15 + (scrollTop / maxScroll) * 10
     )}%`;
     titleSection.style.left = `${Math.min(
       50 - (titleSection.clientWidth / 2 / window.innerWidth) * 100,
@@ -106,8 +120,11 @@ window.addEventListener("scroll", () => {
 
     if (titleSection.style.top === "60%") {
       titleSection.style.textAlign = "center";
+      downloadCVBtn.style.margin = "5px auto";
+      // downloadCVBtn.style.display = "none";
     } else {
       titleSection.style.textAlign = "left";
+      downloadCVBtn.style.margin = "5px 0";
     }
   }
   if (
@@ -388,6 +405,15 @@ function beginIntroAnimation() {
     });
 }
 function playPrevDoorAnimation() {
+  document.getElementById("nextBtn").setAttribute("disabled", true);
+  document
+    .querySelector("#nextBtn img")
+    .setAttribute("src", "./assets/images/next-disabled.png");
+  document.getElementById("prevBtn").setAttribute("disabled", true);
+  document
+    .querySelector("#prevBtn img")
+    .setAttribute("src", "./assets/images/prev-disabled.png");
+  console.log(document.getElementById("nextBtn").disabled);
   new Promise((resolve, reject) => {
     camera = cameras.find((c) => c.name.includes("Camera_04"));
     fadeTo("Camera 04 Action 01", "Camera 04 Action 03");
@@ -490,15 +516,63 @@ function playPrevDoorAnimation() {
       } else {
         currentProject--;
         if (currentProject == 0) {
-          viewButton.style.visibility = "hidden";
+          viewButton.innerText = "DOWNLOAD";
+          viewButton.setAttribute(
+            "href",
+            "./assets/pdf/Arvind K Portfolio.pdf"
+          );
+          viewButton.setAttribute("download", "Arvind K Portfolio.pdf");
         } else {
-          viewButton.style.visibility = "visible";
+          viewButton.innerText = "VIEW";
+          viewButton.removeAttribute("download");
+          viewButton.removeAttribute("href");
         }
       }
+      document.getElementById("page-number").textContent = `${
+        currentProject + 1
+      } / ${projectData.length}`;
+      document.getElementById("project-description").textContent =
+        projectData[currentProject].projectDescription;
+      document
+        .getElementById("img-overlay")
+        .setAttribute("src", projectData[currentProject].projectThumbnail);
+      document.querySelector(".project-title ").textContent =
+        projectData[currentProject].projectName;
+
+      document
+        .getElementById("githubURL")
+        .setAttribute("href", projectData[currentProject].githubUrl);
+      document.getElementById("githubURL").textContent =
+        projectData[currentProject].githubUrl;
+
+      document.getElementById(
+        "responsive"
+      ).textContent = `Responsive: ${projectData[currentProject].responsive}`;
+      document.getElementById(
+        "compatiblity"
+      ).textContent = `Compatible Devices: ${projectData[currentProject].compatibleDevices}`;
     });
+  document.getElementById("nextBtn").setAttribute("disabled", false);
+  document
+    .querySelector("#nextBtn img")
+    .setAttribute("src", "./assets/images/next.png");
+  document.getElementById("prevBtn").setAttribute("disabled", false);
+  document
+    .querySelector("#prevBtn img")
+    .setAttribute("src", "./assets/images/prev.png");
 }
 
 function playNextDoorAnimation() {
+  document.getElementById("nextBtn").setAttribute("disabled", true);
+  document.getElementById("prevBtn").setAttribute("disabled", true);
+
+  document
+    .querySelector("#nextBtn img")
+    .setAttribute("src", "./assets/images/next-disabled.png");
+  document
+    .querySelector("#prevBtn img")
+    .setAttribute("src", "./assets/images/prev-disabled.png");
+
   new Promise((resolve, reject) => {
     camera = cameras.find((c) => c.name.includes("Camera_04"));
     // mixer
@@ -640,15 +714,18 @@ function playNextDoorAnimation() {
       }
       if (currentProject === projectData.length - 1) {
         currentProject = 0;
-        viewButton.style.visibility = "hidden";
+        viewButton.innerText = "DOWNLOAD";
+        viewButton.setAttribute("href", "./assets/pdf/Arvind K Portfolio.pdf");
+        viewButton.setAttribute("download", "Arvind K Portfolio.pdf");
       } else {
-        viewButton.style.visibility = "visible";
+        viewButton.innerText = "VIEW";
+        viewButton.removeAttribute("download");
+        viewButton.removeAttribute("href");
         currentProject++;
-        document.getElementById("page-number").textContent = `${
-          currentProject + 1
-        } / ${projectData.length}`;
       }
-
+      document.getElementById("page-number").textContent = `${
+        currentProject + 1
+      } / ${projectData.length}`;
       document.getElementById("project-description").textContent =
         projectData[currentProject].projectDescription;
       document
@@ -656,7 +733,29 @@ function playNextDoorAnimation() {
         .setAttribute("src", projectData[currentProject].projectThumbnail);
       document.querySelector(".project-title ").textContent =
         projectData[currentProject].projectName;
+
+      document
+        .getElementById("githubURL")
+        .setAttribute("href", projectData[currentProject].githubUrl);
+      document.getElementById("githubURL").textContent =
+        projectData[currentProject].githubUrl;
+
+      document.getElementById(
+        "responsive"
+      ).textContent = `Responsive: ${projectData[currentProject].responsive}`;
+      document.getElementById(
+        "compatiblity"
+      ).textContent = `Compatible Devices: ${projectData[currentProject].compatibleDevices}`;
     });
+
+  document.getElementById("nextBtn").setAttribute("enabled", true);
+  document.getElementById("prevBtn").setAttribute("disabled", false);
+  document
+    .querySelector("#nextBtn img")
+    .setAttribute("src", "./assets/images/next.png");
+  document
+    .querySelector("#prevBtn img")
+    .setAttribute("src", "./assets/images/prev.png");
 }
 
 function fadeTo(prevName, nextName) {
@@ -862,7 +961,7 @@ async function init() {
   document.getElementById("prevBtn").style.visibility = "hidden";
   document.addEventListener("keydown", (event) => {
     const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
-    if (isPlaying) {
+    if (!isPlaying) {
       if (key === "ArrowRight") {
         playNextDoorAnimation();
       } else if (key === "ArrowLeft") {
@@ -1010,9 +1109,11 @@ async function init() {
     viewButton.style.zIndex = 1;
   });
   viewButton.onclick = function () {
-    location.href = projectData[currentProject].url;
+    if (currentProject != 0) {
+      location.href = projectData[currentProject].url;
+    }
   };
-  viewButton.style.visibility = "hidden";
+
   document.getElementById("page-number").textContent = `${
     currentProject + 1
   } / ${projectData.length}`;
