@@ -108,6 +108,9 @@ section.project-description .content .info p {
   border: none;
   cursor: pointer;
 }
+#btn-container button:disabled {
+  cursor: not-allowed;
+}
 
 #img-overlay {
   position: absolute;

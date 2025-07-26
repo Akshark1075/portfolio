@@ -406,10 +406,12 @@ function beginIntroAnimation() {
 }
 function playPrevDoorAnimation() {
   document.getElementById("nextBtn").setAttribute("disabled", true);
+
   document
     .querySelector("#nextBtn img")
     .setAttribute("src", "./assets/images/next-disabled.png");
   document.getElementById("prevBtn").setAttribute("disabled", true);
+  document.getElementById("prevBtn").setAttribute("cursor", "not-allowed");
   document
     .querySelector("#prevBtn img")
     .setAttribute("src", "./assets/images/prev-disabled.png");
@@ -451,7 +453,6 @@ function playPrevDoorAnimation() {
 
     .then(() => {
       return new Promise((resolve, reject) => {
-        console.log(currentDoorIndex);
         if (currentDoorIndex === 0) {
           scene.getObjectByName("ThirdDoor").visible = false;
           scene.getObjectByName("ThirdHanger").visible = false;
@@ -551,15 +552,16 @@ function playPrevDoorAnimation() {
       document.getElementById(
         "compatiblity"
       ).textContent = `Compatible Devices: ${projectData[currentProject].compatibleDevices}`;
+      document.getElementById("nextBtn").removeAttribute("disabled");
+      document
+        .querySelector("#nextBtn img")
+        .setAttribute("src", "./assets/images/next.png");
+
+      document.getElementById("prevBtn").removeAttribute("disabled");
+      document
+        .querySelector("#prevBtn img")
+        .setAttribute("src", "./assets/images/prev.png");
     });
-  document.getElementById("nextBtn").setAttribute("disabled", false);
-  document
-    .querySelector("#nextBtn img")
-    .setAttribute("src", "./assets/images/next.png");
-  document.getElementById("prevBtn").setAttribute("disabled", false);
-  document
-    .querySelector("#prevBtn img")
-    .setAttribute("src", "./assets/images/prev.png");
 }
 
 function playNextDoorAnimation() {
@@ -746,16 +748,16 @@ function playNextDoorAnimation() {
       document.getElementById(
         "compatiblity"
       ).textContent = `Compatible Devices: ${projectData[currentProject].compatibleDevices}`;
-    });
 
-  document.getElementById("nextBtn").setAttribute("enabled", true);
-  document.getElementById("prevBtn").setAttribute("disabled", false);
-  document
-    .querySelector("#nextBtn img")
-    .setAttribute("src", "./assets/images/next.png");
-  document
-    .querySelector("#prevBtn img")
-    .setAttribute("src", "./assets/images/prev.png");
+      document.getElementById("nextBtn").removeAttribute("disabled");
+      document.getElementById("prevBtn").removeAttribute("disabled");
+      document
+        .querySelector("#nextBtn img")
+        .setAttribute("src", "./assets/images/next.png");
+      document
+        .querySelector("#prevBtn img")
+        .setAttribute("src", "./assets/images/prev.png");
+    });
 }
 
 function fadeTo(prevName, nextName) {
